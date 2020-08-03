@@ -158,7 +158,7 @@ class AttentionRNNCell(nn.Module):
             alignment = self.alignment_model(annots, rnn_output, atten)
         if mask is not None:
             mask = mask.view(memory.size(0), -1)
-            alignment.masked_fill_(1 - mask, -float("inf"))
+            alignment.masked_fill_(~mask, -float("inf"))
         # Windowing
         if not self.training and self.windowing:
             back_win = self.win_idx - self.win_back
